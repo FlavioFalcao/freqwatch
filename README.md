@@ -10,7 +10,7 @@ Introduction
 
 * Log radio activity to a mysql database for trend analysis
 
-* Delegate scanners and monitors to find radio traffic and log it
+* Delegate scanners to find radio traffic and log it
 
 * Delegate monitors to store interesting data in the database
 
