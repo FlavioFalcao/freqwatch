@@ -1,0 +1,11 @@
+sql
+===
+select data from intercepts where freq=95955000 order by date, time into outfile "dbout" fields escaped by '';
+
+command line
+============
+cat blah | play -t raw -r 32k -e signed-integer -b 16 -c 1 -V1 -
+
+# Decode FM broadcast stations
+rtl_fm -f 95.7e6 -s 170k -A fast -r 32k -l 0 | play -r 32k -t raw -e s -b 16 -c 1 -V1 -
+

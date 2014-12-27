@@ -1,0 +1,7 @@
+# Since rtl_power moves in steps, you need to define
+# ranges here.
+
+119000000-121000000
+172500000-173500000
+115100000-115300000
+

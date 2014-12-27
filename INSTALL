@@ -1,0 +1,28 @@
+#
+# freqwatch v0.1
+# Joshua Davis
+# freqwatch -!- covert.codes
+#
+
+1) Built on Linux with Python 2.7.  Requires that mysqld/mariadb and the
+   rtl-sdr tools be installed.  Tested on Linux
+
+2) Install pyrtlsdr (e.g. by using pip2)
+
+3) Setup and start mysqld
+
+4) Edit fwsetup.sql to reflect your preferences (including password)
+
+5) From the freqwatch directory: $ cat fwsetup.sql | mysql -u root -p
+
+6) Edit freqwatch.conf to reflect the database settings (and password),
+   as well as your rtl-sdr stick configurations
+
+7) Change permissions on freqwatch.conf so your db password isn't visible to others.
+
+8) To use monitors based on the modified rtl_fm, change to the rtl_fm_new
+   directory and run 'make'.  You can change the CHUNK_SIZE define in the
+   modified source to suit your needs.  You may have to adjust your sql
+   server configuration and increase max_allowed_packet if you run into
+   issues.
+
