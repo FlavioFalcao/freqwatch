@@ -1,8 +1,6 @@
-#
 # Freqwatch v0.1
-# Joshua Davis (freqwatch -!- covert.codes)
-# http://covert.codes/freqwatch/
-#
+Joshua Davis (freqwatch -!- covert.codes)
+http://covert.codes/freqwatch/
 
 
 Introduction
