@@ -34,6 +34,9 @@ Usage
 
 * See the freqwatch.conf file for examples
 
+* Use the intercept.py file in the rtl_fm_new directory to pull data from
+  the monitor database.  The monitor system still has problems (inserts
+  blanks in the output...)
 
 Security Note
 ==============

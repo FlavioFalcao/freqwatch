@@ -243,7 +243,7 @@ struct controller_state controller;
 
 
 /* freqwatch */
-#define CHUNK_SZ        (1024*512)
+#define CHUNK_SZ        (1024*2048)
 #define MAXFREQLEN      10
 
 int16_t *fwbuf;
@@ -266,9 +266,8 @@ insertdb(int16_t *data, size_t size, size_t nmemb)
         fwinitialized = 1;
     }
 
-    if(1){ //fwindex + (nmemb*size) + 1 >= CHUNK_SZ || do_exit == 1){
+    if(fwindex + (nmemb*size) + 1 >= CHUNK_SZ || do_exit == 1){
         MYSQL_BIND param[1];
-        unsigned long sz = nmemb*size;
 
         time(&rawtime);
         info = localtime(&rawtime);
@@ -287,10 +286,10 @@ insertdb(int16_t *data, size_t size, size_t nmemb)
 
         memset(param, 0, sizeof(param));
         param[0].buffer_type = MYSQL_TYPE_MEDIUM_BLOB;
-        param[0].buffer = data; //fwbuf;
+        param[0].buffer = fwbuf;
         param[0].is_unsigned = 0;
         param[0].is_null = 0;
-        param[0].length = &sz; //&fwindex;
+        param[0].length = &fwindex;
 
         if(mysql_stmt_bind_param(stmt, param) != 0){
             printf("Unable to create session: mysql_stmt_bind_param()\n");
@@ -306,8 +305,8 @@ insertdb(int16_t *data, size_t size, size_t nmemb)
         fwindex = 0;
     }
 
-    //memcpy((void *) fwbuf+fwindex, (void *) data, nmemb*size);
-    //fwindex += (nmemb*size);
+    memcpy((void *) fwbuf+fwindex, (void *) data, nmemb*size);
+    fwindex += (nmemb*size);
 
     return;
 }

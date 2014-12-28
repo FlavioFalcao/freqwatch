@@ -1,5 +1,4 @@
 #!/usr/bin/env python2
-# freqwatch v0.1
 #
 # Joshua Davis (freqwatch -*- covert.codes)
 # http://covert.codes
@@ -19,6 +18,7 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import MySQLdb
+import sys
 
 CONF_FILE  = 'freqwatch.conf'
 ERR        = 1
@@ -41,6 +41,19 @@ class Param:
 
 
 def main():
+    try:
+        ldate = sys.argv[1]
+        hdate = sys.argv[2]
+        ltime = sys.argv[3]
+        htime = sys.argv[4]
+        freq = sys.argv[5]
+        outfile = sys.argv[6]
+    except:
+        print("Usage: {} yyyy-mm-dd yyyy-mm-dd hh:mm:ss hh:mm:ss freq outfile".format(sys.argv[0]))
+        print("Dates and times are lower and upper limits.  Check your db for the freq")
+        print(" rtl_fm used, as it's probably different than what you specified.")
+        sys.exit(ERR)
+
     try:
         with open(CONF_FILE) as cfile:
             lines = cfile.readlines()
@@ -70,7 +83,7 @@ def main():
         print("Error {}: {}".format(e.args[0], e.args[1]))
         sys.exit(ERR)
 
-    sql = "SELECT data FROM {} ORDER BY date, time".format(params.getparam('db_mon_table'))
+    sql = "SELECT data FROM {} WHERE date BETWEEN \'{}\' AND \'{}\' AND time BETWEEN \'{}\' AND \'{}\' AND freq={} ORDER BY date,time ".format(params.getparam('db_mon_table'), ldate, hdate, ltime, htime, freq)
     cur.execute(sql)
     rows = cur.fetchall()
 
@@ -78,7 +91,7 @@ def main():
     for r in rows:
         output+=''.join(r[0])
 
-    fd = open("output", 'wb')
+    fd = open(outfile, 'wb')
     fd.write(output)
     fd.close()
 

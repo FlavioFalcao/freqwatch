@@ -1,14 +1,19 @@
-sql
-===
-select data from intercepts where freq=95955000 order by date, time into outfile "dbout" fields escaped by '';
+
+Getting data from the monitor db
+================================
+
+* select data from intercepts where freq=95955000 order by date, time into outfile "dbout" fields escaped by '';
  (*** This results in messed up output if there's more than one row comprising the audio; don't use it)
- (You can modify intercept.py and try to use that; it works better but not perfect)
 
-command line
-============
-cat file | play -t raw -r 32k -e signed-integer -b 16 -c 1 -V1 -
+* You can do this: mysql --binary-mode -e "select group_concat(data separator '') from intercepts order by date, time;" -A -B -r -L -N freqwatch -u freqwatch -p > output
 
-# Decode FM broadcast stations
-rtl_fm -f 95.7e6 -s 170k -A fast -r 32k -l 0 | play -r 32k -t raw -e s -b 16 -c 1 -V1 -
-  (they suggest using -E deemp, but that doesn't work for me)
+* Or better yet, use intercept.py
+
+Some things to do on the command line
+=====================================
+* cat file | play -t raw -r 32k -e signed-integer -b 16 -c 1 -V1 -
+
+* # Decode FM broadcast stations
+  rtl_fm -f 95.7e6 -s 170k -A fast -r 32k -l 0 | play -r 32k -t raw -e s -b 16 -c 1 -V1 -
+    (they suggest using -E deemp, but that doesn't work for me)
 
